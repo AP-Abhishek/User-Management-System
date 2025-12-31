@@ -5,6 +5,7 @@ export interface UserSchema {
     email: string;
     password: string;
     role: RoleSchema;
+    is_active: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
