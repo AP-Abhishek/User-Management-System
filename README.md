@@ -4,10 +4,19 @@
 
 ## Tech Stack
 - Frontend
-    1. React + Vite
-    1. Typescript
-    1. Tailwindcss
+    <ol type="1">
+        <li>React + Vite</li>
+        <li>Typescript</li>
+        <li>Tailwindcss</li>
+    </ol>
 - Backend
-    1. Node.js + Express
+    <ol type="1">
+        <li>Node.js + Express</li>
+        <li>Typescript</li>
+        <li>bcryptjs - hashing</li>
+        <li>jsonwebtoken - sessions</li>
+    </ol>
 - Database
-    1. MongoDB Atlas (Cloud)
+    <ol type="1">
+        <li>MongoDB Atlas (Cloud)</li>
+    <ol>
