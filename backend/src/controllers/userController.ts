@@ -9,11 +9,10 @@ const collectionName = "users";
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
-        const db = await getDB();
-        const collection = await db.collection(collectionName);
+        const db = getDB();
+        const collection = db.collection(collectionName);
 
-        const { firstName, lastName, username, email, password, role } =
-            await req.body;
+        const { firstName, lastName, username, email, password, role } = req.body;
 
         const usernameExists = await collection.findOne({ username });
         if (usernameExists) {
@@ -57,10 +56,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const db = await getDB();
-        const collection = await db.collection(collectionName);
+        const db = getDB();
+        const collection = db.collection(collectionName);
 
-        const { email, password } = await req.body;
+        const { email, password } = req.body;
 
         const user = (await collection.findOne({
             email,
