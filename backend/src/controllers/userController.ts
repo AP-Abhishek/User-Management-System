@@ -2,11 +2,14 @@ import type { Request, Response } from "express";
 import { getDB } from "../db/connection";
 import type { UserSchema } from "../db/schema";
 import bcrypt from "bcryptjs";
+import type { WithId } from "mongodb";
+
+const collectionName = "users";
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
         const db = await getDB();
-        const collection = await db.collection("users");
+        const collection = await db.collection(collectionName);
 
         const { firstName, lastName, username, email, password, role } =
             await req.body;
@@ -53,5 +56,28 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
+        const db = await getDB();
+        const collection = await db.collection(collectionName);
+
+        const { email, password } = await req.body;
+
+        const user = (await collection.findOne({
+            email,
+        })) as WithId<UserSchema> | null;
+        if (!user) {
+            return res.status(401).json({
+                error: "Invalid email.",
+            });
+        }
+
+        const verifiedPassword = await bcrypt.compare(password, user.password);
+        if (!verifiedPassword) {
+            return res.status(401).json({
+                error: "Invalid Password.",
+            });
+        }
+        res.status(200).json({
+            message: "Login successfull.",
+        });
     } catch (err) {}
 };
