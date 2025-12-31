@@ -1,16 +1,16 @@
 import express from "express";
 import cors from "cors";
-import { getDB } from "./config/db";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/users", userRoutes);
+
 app.get("/", async (req, res) => {
-    const db = await getDB();
-    const users = db.collection("users").find().toArray();
-    res.send("User Management System + MongoDB working."+JSON.stringify(users));
+    res.send("Hello");
 });
 
 export default app;
