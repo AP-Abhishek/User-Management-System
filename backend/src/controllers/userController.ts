@@ -3,6 +3,7 @@ import { getDB } from "../db/connection";
 import type { UserSchema } from "../db/schema";
 import bcrypt from "bcryptjs";
 import type { WithId } from "mongodb";
+import { generateToken } from "../utils/auth";
 
 const collectionName = "users";
 
@@ -76,8 +77,14 @@ export const loginUser = async (req: Request, res: Response) => {
                 error: "Invalid Password.",
             });
         }
+        const token = generateToken({ id: user._id, role: user.role });
         res.status(200).json({
             message: "Login successfull.",
+            token: token,
         });
-    } catch (err) {}
+    } catch (err: any) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
 };
