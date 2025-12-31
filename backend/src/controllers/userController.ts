@@ -12,7 +12,8 @@ export const registerUser = async (req: Request, res: Response) => {
         const db = getDB();
         const collection = db.collection(collectionName);
 
-        const { firstName, lastName, username, email, password, role } = req.body;
+        const { firstName, lastName, username, email, password, role } =
+            req.body;
 
         const usernameExists = await collection.findOne({ username });
         if (usernameExists) {
@@ -76,7 +77,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 error: "Invalid Password.",
             });
         }
-        
+
         const token = generateToken({ id: user._id, role: user.role });
         res.status(200).json({
             message: "Login successfull.",
@@ -105,6 +106,20 @@ export const getProfile = async (req: Request, res: Response) => {
             });
         }
         res.status(200).json(user);
+    } catch (err: any) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const db = getDB();
+        const collection = db.collection(collectionName);
+
+        const users = await collection.find({}, { projection: { password: 0 } }).toArray();
+        res.status(200).json(users);
     } catch (err: any) {
         res.status(500).json({
             error: err.message,
