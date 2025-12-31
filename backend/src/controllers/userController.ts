@@ -10,19 +10,18 @@ const collectionName = "users";
 export const registerUser = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const { firstName, lastName, username, email, password, role } =
             req.body;
 
-        const usernameExists = await collection.findOne({ username });
+        const usernameExists = await db.collection(collectionName).findOne({ username });
         if (usernameExists) {
             return res.status(400).json({
                 error: "Username already exits.",
             });
         }
 
-        const emailExists = await collection.findOne({ email });
+        const emailExists = await db.collection(collectionName).findOne({ email });
         if (emailExists) {
             return res.status(400).json({
                 error: "Email already exists.",
@@ -44,7 +43,7 @@ export const registerUser = async (req: Request, res: Response) => {
             updatedAt: new Date(),
         };
 
-        const result = await collection.insertOne(newUser);
+        const result = await db.collection(collectionName).insertOne(newUser);
         res.status(201).json({
             message: "User registerd successfully.",
             id: result.insertedId,
@@ -59,11 +58,10 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const { email, password } = req.body;
 
-        const user = (await collection.findOne({
+        const user = (await db.collection(collectionName).findOne({
             email,
         })) as WithId<UserSchema> | null;
         if (!user) {
@@ -99,9 +97,8 @@ export const loginUser = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
-        const users = await collection
+        const users = await db.collection(collectionName)
             .find({}, { projection: { password: 0 } })
             .toArray();
         res.status(200).json(users);
@@ -115,12 +112,11 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const { id } = req.params;
         const { role, is_active } = req.body;
 
-        const result = await collection.findOneAndUpdate(
+        const result = await db.collection(collectionName).findOneAndUpdate(
             { _id: new ObjectId(id) },
             { $set: { role, is_active, updatedAt: new Date() } },
             { returnDocument: "after", projection: { password: 0 } }
@@ -146,10 +142,9 @@ export const updateUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const { id } = req.params;
-        const result = await collection.findOneAndDelete({
+        const result = await db.collection(collectionName).findOneAndDelete({
             _id: new ObjectId(id),
         });
         if (!result) {
@@ -170,10 +165,9 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const getProfile = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const userId = (req as any).user.id;
-        const user = await collection.findOne(
+        const user = await db.collection(collectionName).findOne(
             { _id: new ObjectId(userId) },
             { projection: { password: 0 } }
         );
@@ -193,12 +187,11 @@ export const getProfile = async (req: Request, res: Response) => {
 export const updateProfile = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const id = (req as any).user.id;
         const { firstName, lastName, username, email } = req.body;
 
-        const user = await collection.findOne({ _id: new ObjectId(id) });
+        const user = await db.collection(collectionName).findOne({ _id: new ObjectId(id) });
 
         if (!user) {
             return res.status(404).json({
@@ -207,7 +200,7 @@ export const updateProfile = async (req: Request, res: Response) => {
         }
 
         if (user.username !== username) {
-            if (await collection.findOne({ username })) {
+            if (await db.collection(collectionName).findOne({ username })) {
                 return res.status(400).json({
                     error: "Username already exits.",
                 });
@@ -215,14 +208,14 @@ export const updateProfile = async (req: Request, res: Response) => {
         }
 
         if (user.email !== email) {
-            if (await collection.findOne({ email })) {
+            if (await db.collection(collectionName).findOne({ email })) {
                 return res.status(400).json({
                     error: "Email already exists.",
                 });
             }
         }
 
-        const result = await collection.findOneAndUpdate(
+        const result = await db.collection(collectionName).findOneAndUpdate(
             { _id: new ObjectId(id) },
             {
                 $set: {
@@ -254,7 +247,6 @@ export const updateProfile = async (req: Request, res: Response) => {
 export const updatePassword = async (req: Request, res: Response) => {
     try {
         const db = getDB();
-        const collection = db.collection(collectionName);
 
         const id = (req as any).user.id;
         const { password } = req.body;
@@ -262,7 +254,7 @@ export const updatePassword = async (req: Request, res: Response) => {
         const saltRounds = Number(process.env.SALT_ROUNDS) || 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const result = await collection.findOneAndUpdate(
+        const result = await db.collection(collectionName).findOneAndUpdate(
             { _id: new ObjectId(id) },
             { $set: { password: hashedPassword, updatedAt: new Date() } }
         );
