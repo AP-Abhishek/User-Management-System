@@ -1,26 +1,13 @@
-type NavLinks = {
-  name: string;
-  link: string;
-}
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-
-  const navigations: NavLinks[] = [
-    { name: "Users", link: "/users" },
-    { name: "Roles", link: "/roles" }
-  ]
 
   return (
     <>
       <nav className="flex-center">
         <ul className="flex gap-4">
-          {
-            navigations.map((nav) => (
-              <li key={nav.name} className="text-xl">
-                <a href={nav.link}>{nav.name}</a>
-              </li>
-            ))
-          }
+          <Link to={"/users"}>Users</Link>
+          <Link to={"/roles"}>Roles</Link>
         </ul>
       </nav>
     </>
