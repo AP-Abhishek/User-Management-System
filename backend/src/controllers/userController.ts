@@ -93,7 +93,7 @@ export const loginUser = async (req: Request, res: Response) => {
             user: {
                 id: user._id,
                 role: user.role,
-                firstName: user.firstName,
+                username: user.username,
             },
         });
     } catch (err: any) {
