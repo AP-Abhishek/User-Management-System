@@ -9,6 +9,7 @@ import Forbidden from "./pages/Forbidden";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Login from "./pages/Login";
+import { Bounce, ToastContainer } from "react-toastify";
 
 export default function App() {
 
@@ -16,7 +17,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />}/>
+          <Route path="/login" element={<Login />} />
 
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
@@ -35,6 +36,20 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+
+      />
     </BrowserRouter >
   )
 }

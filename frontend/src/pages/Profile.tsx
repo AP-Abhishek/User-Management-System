@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 type UserData = {
 	firstName: string;
@@ -24,9 +25,6 @@ const Profile = () => {
 	const [role, setRole] = useState<string>("");
 	const [isActive, setIsActive] = useState<boolean>(false);
 	const [originalData, setOriginalData] = useState<UserData | null>(null);
-
-	const [success, setSuccess] = useState<string | null>(null);
-	const [error, setError] = useState<string | null>(null);
 
 	const handleChangePassword = () => setChangingPassword(true);
 
@@ -58,7 +56,6 @@ const Profile = () => {
 	};
 
 	const handleSave = async () => {
-		setError(null);
 		try {
 			const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/profile`, {
 				method: "PATCH",
@@ -84,19 +81,18 @@ const Profile = () => {
 
 				setEditing(false);
 				setOriginalData(null);
-				setSuccess("Profile updated successfully.")
+				toast.success(data.message || "Profile updated successfully.");
 			} else {
-				setError(data.error || "Failed to update profile.");
+				toast.error(data.error || "Failed to update profile.");
 			}
 		} catch (err) {
-			throw new Error("Unable to connect to backend.");
+			toast.error("Network Error: Could not reach the server.");
 		}
 	};
 
 	const handleChangePasswordForm = async () => {
-		setError(null);
 		if (password === "") {
-			setError("Password cannot be empty.");
+			toast.error("Password cannot be empty.");
 			return;
 		}
 		try {
@@ -116,12 +112,12 @@ const Profile = () => {
 			if (res.ok) {
 				setChangingPassword(false);
 				setPassword("");
-				setSuccess("Password updated successfully.")
+				toast.success(data.message || "Password updated successfully.");
 			} else {
-				setError(data.error || "Failed to update profile.");
+				toast.error(data.error || "Failed to update profile.");
 			}
 		} catch (err) {
-			throw new Error("Unable to connect to backend.");
+			toast.error("Network Error: Could not reach the server.");
 		}
 	}
 
@@ -147,10 +143,10 @@ const Profile = () => {
 					setRole(data.role);
 					setIsActive(data.is_active);
 				} else {
-					setError(data.error || "Failed to fetch user.");
+					toast.error(data.error || "Failed to fetch user.");
 				}
 			} catch (err) {
-				throw new Error("Unable to connect to backend.");
+				toast.error("Network Error: Could not reach the server.");
 			}
 		};
 
@@ -190,24 +186,65 @@ const Profile = () => {
 							}
 						</section>
 						<form
-							action="POST"
 							className="flex flex-col"
 						>
 							<label htmlFor="firstname" className={labelClasses}>
 								<span className={spanClasses}>First Name</span>
-								<input id="firstname" type="text" className={inputClasses} value={firstName} onChange={(e) => setFirstName(e.target.value)} readOnly={!editing} />
+								<input
+									id="firstname"
+									type="text"
+									pattern="[A-Za-z]+"
+									className={inputClasses}
+									maxLength={128}
+									value={firstName}
+									onChange={(e) => {
+										const value = e.target.value.replace(/[^A-Za-z]/g, "");
+										setFirstName(value);
+									}}
+									readOnly={!editing}
+								/>
 							</label>
 							<label htmlFor="lastname" className={labelClasses}>
 								<span className={spanClasses}>Last Name</span>
-								<input id="lastname" type="text" className={inputClasses} value={lastName} onChange={(e) => setLastName(e.target.value)} readOnly={!editing} />
+								<input
+									id="lastname"
+									type="text"
+									className={inputClasses}
+									maxLength={128}
+									value={lastName}
+									onChange={(e) => {
+										const value = e.target.value.replace(/[^A-Za-z]/g, "");
+										setLastName(value);
+									}}
+									readOnly={!editing}
+								/>
 							</label>
 							<label htmlFor="username" className={labelClasses}>
 								<span className={spanClasses}>Username</span>
-								<input id="username" type="text" className={inputClasses} value={username} onChange={(e) => setUsername(e.target.value)} readOnly={!editing} />
+								<input
+									id="username"
+									type="text"
+									className={inputClasses}
+									maxLength={128}
+									value={username}
+									onChange={(e) => {
+										const value = e.target.value.replace(/[^A-Za-z0-9._]/g, "");
+										setUsername(value);
+									}}
+									readOnly={!editing}
+								/>
 							</label>
 							<label htmlFor="email" className={labelClasses}>
 								<span className={spanClasses}>E-mail</span>
-								<input id="email" type="email" className={inputClasses} value={email} onChange={(e) => setEmail(e.target.value)} readOnly={!editing} />
+								<input
+									id="email"
+									type="email"
+									className={inputClasses}
+									maxLength={128}
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									readOnly={!editing}
+								/>
 							</label>
 						</form>
 					</div>
@@ -216,16 +253,23 @@ const Profile = () => {
 			{
 				changingPassword && (
 					<div className="fixed top-40 left-1/2 -translate-1/2 bg-background w-1/2 rounded-xl p-4 backdrop-blur-md shadow-[0_0_3px] shadow-sky-600">
-						<form method="PUT">
+						<form>
 							<label htmlFor="password" className={labelClasses}>
 								<span className={spanClasses}>Enter New Password</span>
-								<input id="password" type="password" className={"px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white focus:outline-sky-300"} value={password} onChange={(e) => setPassword(e.target.value)} />
+								<input
+									id="password"
+									type="password"
+									className={"px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white focus:outline-sky-300"}
+									maxLength={128}
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
 							</label>
-							<section className="flex gap-4 justify-end">
-								<button className="bg-red-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-red-700 hover:cursor-pointer transition-all ease-linear active:bg-red-900" onClick={() => { setChangingPassword(false); setPassword(""); }}>Cancel</button>
-								<button className="bg-green-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-green-700 hover:cursor-pointer transition-all ease-linear active:bg-green-900" onClick={handleChangePasswordForm}>Change</button>
-							</section>
 						</form>
+						<section className="flex gap-4 justify-end">
+							<button className="bg-red-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-red-700 hover:cursor-pointer transition-all ease-linear active:bg-red-900" onClick={() => { setChangingPassword(false); setPassword(""); }}>Cancel</button>
+							<button className="bg-green-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-green-700 hover:cursor-pointer transition-all ease-linear active:bg-green-900" onClick={handleChangePasswordForm}>Change</button>
+						</section>
 					</div>
 				)
 			}

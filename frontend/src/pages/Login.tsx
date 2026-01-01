@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -15,7 +16,6 @@ const Login = () => {
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
-	const [error, setError] = useState<string | null>(null);
 
 	const handleLogin = async (e: FormEvent) => {
 		e.preventDefault();
@@ -38,12 +38,13 @@ const Login = () => {
 
 			if (res.ok) {
 				login(data.token, data.user);
+				toast.success(data.message || "Login Successfull.");
 				navigate("/");
 			} else {
-				setError(data.error || "Login failed");
+				toast.error(data.error || "Login Failed.");
 			}
 		} catch (err) {
-			throw new Error("Unable to connect to backend.");
+			toast.error("Network Error: Could not reach the server.");
 		}
 	}
 
@@ -67,7 +68,6 @@ const Login = () => {
 							Welcome, User...!
 						</h1>
 						<form method="POST" className="md:p-8 px-2 py-6 mt-4 w-full h-full flex flex-col md:justify-center justify-around">
-							{error && <p className="text-red-500 text-sm font-bold">{error}</p>}
 							<label htmlFor="email" className={labelClasses}>
 								<span className={spanClasses}>Enter your E-mail</span>
 								<input
