@@ -3,6 +3,7 @@
 
 @theme {
     --default-font-family: "Roboto";
+    --color-background: #E8F0FE;
 }
 
 @utility flex-center {
