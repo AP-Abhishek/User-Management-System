@@ -6,22 +6,35 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import MainLayout from "./layout";
 import Forbidden from "./pages/Forbidden";
+import { AuthProvider } from "./context/AuthProvider";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Login from "./pages/Login";
 
 export default function App() {
 
-
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<User />} />
-          <Route path="/roles" element={<Role />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-        <Route path="/forbidden" element={<Forbidden />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />}/>
+
+          <Route element={<ProtectedRoute />}>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Dashboard />} />
+
+              <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                <Route path="/users" element={<User />} />
+                <Route path="/roles" element={<Role />} />
+              </Route>
+
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+          </Route>
+
+          <Route path="/forbidden" element={<Forbidden />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter >
   )
 }
