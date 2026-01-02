@@ -96,9 +96,6 @@ const Role = () => {
     fetchRoles();
   }, []);
 
-  const spanClasses = "ml-0.5 block md:text-lg text-sm font-semibold text-sky-600";
-  const labelClasses = "block md:my-2";
-
   return (
     <>
       <div className="px-12 py-8 flex gap-8">
@@ -169,31 +166,44 @@ const Role = () => {
       </div>
 
       {showModal && (
-        <div className="fixed top-40 left-1/2 -translate-x-1/2 bg-background w-1/3 rounded-xl p-6 backdrop-blur-md shadow-[0_0_3px] shadow-sky-600 z-50">
-          <h2 className="text-xl font-bold mb-4 text-sky-700">
-            {editingRole ? "Update Role" : "Create New Role"}
-          </h2>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="roleName" className={labelClasses}>
-              <span className={spanClasses}>Role Name</span>
-              <input
-                id="roleName"
-                type="text"
-                className="px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white border border-stone-200 focus:outline-sky-300"
-                value={newRoleName}
-                onChange={(e) => setNewRoleName(e.target.value.replace(/[^A-Za-z]/g, ""))}
-                placeholder="e.g. Manager"
-              />
-            </label>
-          </form>
-          <section className="flex gap-4 justify-end mt-6">
-            <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700" onClick={closeModal}>Cancel</button>
-            <button className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700" onClick={handleAddOrUpdateRole}>
-              {editingRole ? "Update" : "Create"}
-            </button>
-          </section>
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-sky-200 border-t-4 border-sky-600">
+            <h2 className="text-xl font-bold text-stone-800">
+              {editingRole ? "Update Role" : "Create New Role"}
+            </h2>
+
+            <form onSubmit={(e) => e.preventDefault()} className="mt-4">
+              <label htmlFor="roleName" className="block text-sm font-semibold text-stone-600 uppercase tracking-wide">
+                Role Name
+                <input
+                  id="roleName"
+                  type="text"
+                  className="mt-2 px-3 py-2 w-full rounded-md bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 text-stone-800"
+                  value={newRoleName}
+                  onChange={(e) => setNewRoleName(e.target.value.replace(/[^A-Za-z]/g, ""))}
+                  autoFocus
+                />
+              </label>
+            </form>
+
+            <section className="flex gap-4 justify-end mt-8">
+              <button
+                className="px-4 py-2 text-stone-600 font-semibold hover:bg-stone-100 rounded-md transition-colors"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-sky-600 text-white px-6 py-2 rounded-md font-bold hover:bg-sky-700 transition-all active:scale-95 shadow-md"
+                onClick={handleAddOrUpdateRole}
+              >
+                {editingRole ? "Update Role" : "Create Role"}
+              </button>
+            </section>
+          </div>
         </div>
       )}
+
 
       {deletingRole && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">

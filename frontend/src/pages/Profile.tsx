@@ -18,6 +18,7 @@ const Profile = () => {
 
   const [editing, setEditing] = useState<boolean>(false);
   const [changingPassword, setChangingPassword] = useState<boolean>(false);
+  const [confirmLogout, setConfirmLogout] = useState<boolean>(false);
 
   const [id, setId] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -51,7 +52,7 @@ const Profile = () => {
     setLastName(originalData.lastName);
     setUsername(originalData.username);
     setEmail(originalData.email);
-    setPassword("********");
+    setPassword("");
     setRole(originalData.role);
     setIsActive(originalData.isActive);
   };
@@ -122,6 +123,10 @@ const Profile = () => {
     }
   }
 
+  const handleLogout = () => {
+    setConfirmLogout(true);
+  }
+
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -159,7 +164,7 @@ const Profile = () => {
   const spanClasses = "ml-0.5 block md:text-lg text-sm font-semibold text-sky-600"
   const inputClasses = `px-3 py-1.5 my-2 w-full rounded-md md:text-lg  ${editing ? "focus:outline-sky-200 bg-background" : "focus:outline-none cursor-default bg-stone-200"}`;
 
-return (
+  return (
     <>
       <div className="px-12 py-8 flex gap-8">
         <section className="w-1/3 p-2 flex items-center flex-col border-r-2 border-stone-200 pr-8">
@@ -184,7 +189,7 @@ return (
                 <>
                   <button className={buttonClasses} onClick={() => setChangingPassword(true)}>Change Password</button>
                   <button className={buttonClasses} onClick={handleEditProfile}>Edit Profile</button>
-                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={logout}>Logout</button>
+                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={handleLogout}>Logout</button>
                 </>
               )}
             </section>
@@ -236,24 +241,73 @@ return (
       </div>
 
       {changingPassword && (
-        <div className="fixed top-40 left-1/2 -translate-x-1/2 bg-background w-1/2 rounded-xl p-4 backdrop-blur-md shadow-[0_0_3px] shadow-sky-600 z-50">
-          <form onSubmit={(e) => e.preventDefault()}>
-            <label className={labelClasses}>
-              <span className={spanClasses}>Enter New Password</span>
-              <input
-                type="password"
-                className="px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white focus:outline-sky-300 border border-stone-200"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-          </form>
-          <section className="flex gap-4 justify-end mt-4">
-            <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700" onClick={() => { setChangingPassword(false); setPassword(""); }}>Cancel</button>
-            <button className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700" onClick={handleChangePasswordForm}>Change</button>
-          </section>
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-sky-200 border-t-4 border-sky-600">
+            <h2 className="text-xl font-bold text-stone-800">Change Password</h2>
+
+            <form onSubmit={(e) => e.preventDefault()} className="mt-4">
+              <label className="block">
+                <span className="text-sm font-semibold text-stone-600 uppercase tracking-wider">
+                  Enter New Password
+                </span>
+                <input
+                  type="password"
+                  autoFocus
+                  className="mt-2 w-full px-4 py-2 rounded-md bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-600 transition-all"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+            </form>
+
+            <section className="flex gap-4 justify-end mt-8">
+              <button
+                className="px-4 py-2 text-stone-600 font-semibold hover:bg-stone-100 rounded-md transition-colors"
+                onClick={() => {
+                  setChangingPassword(false);
+                  setPassword("");
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-sky-600 text-white px-6 py-2 rounded-md font-bold hover:bg-sky-700 transition-all active:scale-95 shadow-md"
+                onClick={handleChangePasswordForm}
+              >
+                Update Password
+              </button>
+            </section>
+          </div>
         </div>
       )}
+
+      {confirmLogout && (
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-red-200 border-t-4 border-red-600">
+            <h2 className="text-xl font-bold text-stone-800">Logout?</h2>
+
+            <p className="mt-4 text-stone-600 leading-relaxed">
+              Are you sure you want to log out of your account? You will need to re-authenticate to gain access again.
+            </p>
+
+            <section className="flex gap-4 justify-end mt-8">
+              <button
+                className="px-4 py-2 text-stone-600 font-semibold hover:bg-stone-100 rounded-md transition-colors"
+                onClick={() => setConfirmLogout(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-600 text-white px-6 py-2 rounded-md font-bold hover:bg-red-700 transition-all active:scale-95 shadow-md"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </section>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
