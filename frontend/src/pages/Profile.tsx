@@ -29,8 +29,6 @@ const Profile = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [originalData, setOriginalData] = useState<UserData | null>(null);
 
-  const handleChangePassword = () => setChangingPassword(true);
-
   const handleEditProfile = () => {
     setEditing(true);
     setOriginalData({
@@ -57,10 +55,6 @@ const Profile = () => {
     setRole(originalData.role);
     setIsActive(originalData.isActive);
   };
-
-  const handleLogout = () => {
-    logout();
-  }
 
   const handleSave = async () => {
     try {
@@ -165,90 +159,72 @@ const Profile = () => {
   const spanClasses = "ml-0.5 block md:text-lg text-sm font-semibold text-sky-600"
   const inputClasses = `px-3 py-1.5 my-2 w-full rounded-md md:text-lg  ${editing ? "focus:outline-sky-200 bg-background" : "focus:outline-none cursor-default bg-stone-200"}`;
 
-  return (
+return (
     <>
       <div className="px-12 py-8 flex gap-8">
-        <section className="w-1/3 p-2 flex items-center flex-col">
+        <section className="w-1/3 p-2 flex items-center flex-col border-r-2 border-stone-200 pr-8">
           <h1 className="self-start text-2xl font-semibold text-sky-700">Profile</h1>
           <img src="profile.png" alt="profile" className="size-64 my-6" />
           <span className="text-sm text-stone-500 italic">id: {id}</span>
-          <span className="mt-2 font-semibold">{role.toUpperCase()}</span>
-          <span className={`mt-2 px-2 py-1 text-white rounded-sm ${isActive ? "bg-green-500" : "bg-red-500"}`}>{isActive ? "Active" : "Inactive"}</span>
+          <span className="mt-2 font-semibold">{role?.toUpperCase()}</span>
+          <span className={`mt-2 px-2 py-1 text-white rounded-sm ${isActive ? "bg-green-500" : "bg-red-500"}`}>
+            {isActive ? "Active" : "Inactive"}
+          </span>
         </section>
-        <section className="w-2/3 p-2">
+
+        <section className="w-2/3 p-2 pl-4">
           <div>
             <section className="flex gap-4 justify-end">
-              {
-                editing ? (
-                  <>
-                    <button className={`bg-red-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-red-700 hover:cursor-pointer transition-all ease-linear active:bg-red-900`} onClick={handleCancel}>Cancel</button>
-                    <button className={`bg-green-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-green-700 hover:cursor-pointer transition-all ease-linear active:bg-green-900`} onClick={handleSave}>Save</button>
-                  </>
-                ) : (
-                  <>
-                    <button className={buttonClasses} onClick={handleChangePassword}>Change Password</button>
-                    <button className={buttonClasses} onClick={handleEditProfile}>Edit Profile</button>
-                    <button className={`bg-red-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-red-700 hover:cursor-pointer transition-all ease-linear active:bg-red-900`} onClick={handleLogout}>Logout</button>
-                  </>
-                )
-              }
+              {editing ? (
+                <>
+                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={handleCancel}>Cancel</button>
+                  <button className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 transition-all" onClick={handleSave}>Save</button>
+                </>
+              ) : (
+                <>
+                  <button className={buttonClasses} onClick={() => setChangingPassword(true)}>Change Password</button>
+                  <button className={buttonClasses} onClick={handleEditProfile}>Edit Profile</button>
+                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={logout}>Logout</button>
+                </>
+              )}
             </section>
-            <form
-              className="flex flex-col"
-            >
-              <label htmlFor="firstname" className={labelClasses}>
+
+            <form className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
+              <label className={labelClasses}>
                 <span className={spanClasses}>First Name</span>
                 <input
-                  id="firstname"
                   type="text"
-                  pattern="[A-Za-z]+"
                   className={inputClasses}
-                  maxLength={128}
                   value={firstName}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^A-Za-z]/g, "");
-                    setFirstName(value);
-                  }}
+                  onChange={(e) => setFirstName(e.target.value.replace(/[^A-Za-z]/g, ""))}
                   readOnly={!editing}
                 />
               </label>
-              <label htmlFor="lastname" className={labelClasses}>
+              <label className={labelClasses}>
                 <span className={spanClasses}>Last Name</span>
                 <input
-                  id="lastname"
                   type="text"
                   className={inputClasses}
-                  maxLength={128}
                   value={lastName}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^A-Za-z]/g, "");
-                    setLastName(value);
-                  }}
+                  onChange={(e) => setLastName(e.target.value.replace(/[^A-Za-z]/g, ""))}
                   readOnly={!editing}
                 />
               </label>
-              <label htmlFor="username" className={labelClasses}>
+              <label className={labelClasses}>
                 <span className={spanClasses}>Username</span>
                 <input
-                  id="username"
                   type="text"
                   className={inputClasses}
-                  maxLength={128}
                   value={username}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/[^A-Za-z0-9._]/g, "");
-                    setUsername(value);
-                  }}
+                  onChange={(e) => setUsername(e.target.value.replace(/[^A-Za-z0-9._]/g, ""))}
                   readOnly={!editing}
                 />
               </label>
-              <label htmlFor="email" className={labelClasses}>
+              <label className={labelClasses}>
                 <span className={spanClasses}>E-mail</span>
                 <input
-                  id="email"
                   type="email"
                   className={inputClasses}
-                  maxLength={128}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   readOnly={!editing}
@@ -258,31 +234,28 @@ const Profile = () => {
           </div>
         </section>
       </div>
-      {
-        changingPassword && (
-          <div className="fixed top-40 left-1/2 -translate-1/2 bg-background w-1/2 rounded-xl p-4 backdrop-blur-md shadow-[0_0_3px] shadow-sky-600">
-            <form>
-              <label htmlFor="password" className={labelClasses}>
-                <span className={spanClasses}>Enter New Password</span>
-                <input
-                  id="password"
-                  type="password"
-                  className={"px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white focus:outline-sky-300"}
-                  maxLength={128}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </label>
-            </form>
-            <section className="flex gap-4 justify-end">
-              <button className="bg-red-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-red-700 hover:cursor-pointer transition-all ease-linear active:bg-red-900" onClick={() => { setChangingPassword(false); setPassword(""); }}>Cancel</button>
-              <button className="bg-green-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-green-700 hover:cursor-pointer transition-all ease-linear active:bg-green-900" onClick={handleChangePasswordForm}>Change</button>
-            </section>
-          </div>
-        )
-      }
+
+      {changingPassword && (
+        <div className="fixed top-40 left-1/2 -translate-x-1/2 bg-background w-1/2 rounded-xl p-4 backdrop-blur-md shadow-[0_0_3px] shadow-sky-600 z-50">
+          <form onSubmit={(e) => e.preventDefault()}>
+            <label className={labelClasses}>
+              <span className={spanClasses}>Enter New Password</span>
+              <input
+                type="password"
+                className="px-3 py-1.5 my-2 w-full rounded-md md:text-lg bg-white focus:outline-sky-300 border border-stone-200"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+          </form>
+          <section className="flex gap-4 justify-end mt-4">
+            <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700" onClick={() => { setChangingPassword(false); setPassword(""); }}>Cancel</button>
+            <button className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700" onClick={handleChangePasswordForm}>Change</button>
+          </section>
+        </div>
+      )}
     </>
-  )
+  );
 }
 
 export default Profile;
