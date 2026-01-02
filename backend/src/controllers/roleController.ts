@@ -78,13 +78,6 @@ export const deleteRole = async (req: Request, res: Response) => {
                 message: "Role not found.",
             });
         }
-        const defaultRole = await db.collection(collectionName).findOne({ name: "user" });
-        if (!defaultRole) {
-            await db.collection("roles").insertOne({ name: "user" });
-        }
-        await db
-            .collection("users")
-            .updateMany({ role: result.name }, { $set: { role: "user" } });
 
         res.status(200).json({
             message: "Role deleted.",
