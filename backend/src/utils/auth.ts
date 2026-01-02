@@ -8,7 +8,7 @@ if (!JWT_SECRET) {
 
 export const generateToken = (
     payload: object,
-    expiresIn: string = "1h"
+    expiresIn: string = "7d"
 ): string => {
     const options: SignOptions = {
         expiresIn: expiresIn as any,
