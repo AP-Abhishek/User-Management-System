@@ -37,21 +37,21 @@ export const editRole = async (req: Request, res: Response) => {
         const { id } = req.params;
         const { name } = req.body;
 
-        const result = await db.collection(collectionName).findOneAndUpdate(
-            { _id: new ObjectId(id) },
-            {
-                $set: {
-                    name: name,
-                },
-            },
-            { returnDocument: "after" }
-        );
-
-        if (!result) {
+        const oldRole = await db
+            .collection(collectionName)
+            .findOne({ _id: new ObjectId(id) });
+        if (!oldRole) {
             return res.status(404).json({
                 message: "Role not found.",
             });
         }
+        await db
+            .collection(collectionName)
+            .updateOne({ _id: new ObjectId(id) }, { $set: { name: name } });
+
+        await db
+            .collection("users")
+            .updateMany({ role: oldRole }, { $set: { role: name } });
 
         res.status(200).json({
             message: "Role updated.",
@@ -78,6 +78,14 @@ export const deleteRole = async (req: Request, res: Response) => {
                 message: "Role not found.",
             });
         }
+        const defaultRole = await db.collection(collectionName).findOne({ name: "user" });
+        if (!defaultRole) {
+            await db.collection("roles").insertOne({ name: "user" });
+        }
+        await db
+            .collection("users")
+            .updateMany({ role: result.name }, { $set: { role: "user" } });
+
         res.status(200).json({
             message: "Role deleted.",
         });
@@ -92,9 +100,7 @@ export const getRoles = async (req: Request, res: Response) => {
     try {
         const db = getDB();
         const roles = await db.collection(collectionName).find({}).toArray();
-        res.status(200).json({
-            roles: roles,
-        });
+        res.status(200).json(roles);
     } catch (err: any) {
         res.status(500).json({
             error: err.message,
