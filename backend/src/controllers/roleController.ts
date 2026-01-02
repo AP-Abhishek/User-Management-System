@@ -8,8 +8,8 @@ export const addRole = async (req: Request, res: Response) => {
     try {
         const db = getDB();
 
-        const { roleName } = req.body;
-        if (await db.collection(collectionName).findOne({ name: roleName })) {
+        const { name } = req.body;
+        if (await db.collection(collectionName).findOne({ name: name })) {
             return res.status(409).json({
                 error: "Role already exists.",
             });
@@ -17,7 +17,7 @@ export const addRole = async (req: Request, res: Response) => {
 
         const result = await db
             .collection(collectionName)
-            .insertOne({ name: roleName });
+            .insertOne({ name: name });
 
         res.status(201).json({
             message: "Role created.",
@@ -35,13 +35,13 @@ export const editRole = async (req: Request, res: Response) => {
         const db = getDB();
 
         const { id } = req.params;
-        const { roleName } = req.body;
+        const { name } = req.body;
 
         const result = await db.collection(collectionName).findOneAndUpdate(
             { _id: new ObjectId(id) },
             {
                 $set: {
-                    name: roleName,
+                    name: name,
                 },
             },
             { returnDocument: "after" }
