@@ -37,47 +37,47 @@ const Dashboard = () => {
     }
   }, [user]);
 
-  const cardClasses = "p-6 bg-background rounded-xl shadow-[0_0_3px] shadow-sky-600 border-l-4 transition-all hover:bg-sky-50 cursor-default";
-  const actionBtnClasses = "flex items-center justify-center gap-2 p-4 rounded-xl border border-stone-200 text-sky-700 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-200 shadow-sm";
+  const cardClasses = "md:p-6 p-3 bg-background md:rounded-xl rounded-lg shadow-[0_0_3px] shadow-sky-600 border-l-4 transition-all hover:bg-sky-50 cursor-default md:block flex items-center justify-between";
+  const actionBtnClasses = "flex-center gap-2 p-4 rounded-xl border border-stone-200 text-sky-700 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-200 shadow-sm md:text-base text-sm";
 
   return (
-    <div className="px-12 py-8 flex gap-8">
-      <section className="w-1/3 p-2 flex items-center flex-col border-r-2 border-stone-200 pr-8">
-        <h1 className="self-start text-2xl font-semibold text-sky-700">Dashboard</h1>
-        <img src="profile.png" alt="dashboard" className="size-64 my-6" />
+    <div className="md:px-12 px-8 md:py-8 py-4 flex md:flex-row flex-col gap-8">
+      <section className="md:w-1/3 w-full p-2 flex items-center flex-col md:border-r-2 border-stone-200 md:pr-8">
+        <h1 className="md:self-start text-2xl font-semibold text-sky-700">Dashboard</h1>
+        <img src="profile.png" alt="dashboard" className="md:size-64 size-32 my-6" />
         <div className="text-center">
           <h2 className="text-xl font-bold text-stone-800">Welcome, {user?.username}!</h2>
           <p className="text-sm text-stone-500 italic mt-1">
             Logged in as <span className="font-bold text-sky-600">{user?.role?.toUpperCase()}</span>
           </p>
         </div>
-        <div className="mt-8 w-full p-4 bg-sky-50 rounded-lg border border-sky-100">
+        <div className="md:block hidden mt-8 w-full p-4 bg-sky-50 rounded-lg border border-sky-100">
           <p className="text-xs text-sky-800 leading-relaxed text-justify italic">
             "A robust full-stack solution built with React and Express. Efficiently manage user lifecycles and security policies."
           </p>
         </div>
       </section>
 
-      <section className="w-2/3 p-2 pl-4">
+      <section className="md:w-2/3 w-full p-2 md:pl-4">
         {user?.role === 'admin' ? (
           <>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
               <div className={`${cardClasses} border-sky-600`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">Total Users</span>
-                <h3 className="text-4xl font-bold text-sky-700 mt-2">{stats.users}</h3>
+                <h3 className="text-4xl font-bold text-sky-700 md:mt-2 mx-2">{stats.users}</h3>
               </div>
               <div className={`${cardClasses} border-green-600`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">Active Sessions</span>
-                <h3 className="text-4xl font-bold text-green-600 mt-2">{stats.active}</h3>
+                <h3 className="text-4xl font-bold text-green-600 md:mt-2 mx-2">{stats.active}</h3>
               </div>
-              <div className={`${cardClasses} border-stone-600 col-span-2`}>
+              <div className={`${cardClasses} border-stone-600 md:col-span-2`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">System Roles</span>
-                <h3 className="text-4xl font-bold text-stone-700 mt-2">{stats.roles}</h3>
+                <h3 className="text-4xl font-bold text-stone-700 md:mt-2 mx-2">{stats.roles}</h3>
               </div>
             </div>
 
             <div className="mt-12">
-              <h2 className="text-xl font-bold text-sky-800 mb-6 underline underline-offset-8 decoration-sky-300">Quick Actions</h2>
+              <h2 className="md:text-start text-center text-xl font-bold text-sky-800 mb-6 underline underline-offset-8 decoration-sky-300">Quick Actions</h2>
               <div className="grid grid-cols-2 gap-4">
                 <Link to="/profile" className={actionBtnClasses}>
                   <svg xmlns="www.w3.org" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
