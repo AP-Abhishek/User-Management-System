@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex-center">
+      <nav className="md:flex hidden flex-center">
         <ul className="flex gap-4">
           {
             user?.role === "admin" && (
