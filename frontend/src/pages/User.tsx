@@ -96,19 +96,19 @@ const User = () => {
   };
 
   return (
-    <div className="px-12 py-8 flex gap-8">
-      <section className="w-1/3 p-2 flex items-center flex-col border-r border-stone-200">
-        <h1 className="self-start text-2xl font-semibold text-sky-700">User Management</h1>
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className="w-full mt-6 bg-sky-600 text-white py-3 rounded-xl font-bold hover:bg-sky-700 transition-all shadow-md"
-        >
-          + Add New User
-        </button>
-        <div className="size-56 my-8 bg-sky-50 rounded-full flex flex-col items-center justify-center shadow-inner border-4 border-white">
+    <div className="md:px-12 px-8 md:py-8 py-4 flex md:flex-row flex-col gap-8">
+      <section className="md:w-1/3 w-full p-2 flex items-center flex-col md:border-r border-stone-200">
+        <h1 className="md;self-start text-2xl font-semibold text-sky-700">User Management</h1>
+        <div className="size-56 mt-6 bg-sky-50 rounded-full flex flex-col items-center justify-center shadow-inner border-4 border-white">
           <span className="text-5xl font-black text-sky-600">{users.length}</span>
           <span className="text-[10px] text-sky-400 font-bold tracking-tighter uppercase">Total Users</span>
         </div>
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="w-2/3 my-8 bg-sky-600 text-white py-3 rounded-xl font-bold hover:bg-sky-700 transition-all shadow-md"
+        >
+          + Add New User
+        </button>
         <div className="w-full space-y-3">
           <div className="flex justify-between p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
             <span className="text-sm font-semibold text-green-700">Active Accounts</span>
@@ -121,7 +121,7 @@ const User = () => {
         </div>
       </section>
 
-      <section className="w-2/3 p-2">
+      <section className="md:w-2/3 w-full p-2">
         <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
           <table className="w-full text-left">
             <thead className="bg-stone-50 border-b border-stone-200">
