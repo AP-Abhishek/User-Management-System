@@ -159,17 +159,17 @@ const Profile = () => {
     getProfile();
   }, []);
 
-  const buttonClasses = "bg-sky-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-sky-700 hover:cursor-pointer transition-all ease-linear active:bg-sky-900";
+  const buttonClasses = "bg-sky-600 text-white px-3 md:py-1.5 py-3 rounded-md self-start hover:bg-sky-700 hover:cursor-pointer transition-all ease-linear active:bg-sky-900 md:text-base text-sm md:w-auto w-full";
   const labelClasses = "block md:my-2";
   const spanClasses = "ml-0.5 block md:text-lg text-sm font-semibold text-sky-600"
-  const inputClasses = `px-3 py-1.5 my-2 w-full rounded-md md:text-lg  ${editing ? "focus:outline-sky-200 bg-background" : "focus:outline-none cursor-default bg-stone-200"}`;
+  const inputClasses = `px-3 md:py-1.5 py-2.5 my-2 w-full rounded-md md:text-lg  ${editing ? "focus:outline-sky-200 bg-background" : "focus:outline-none cursor-default bg-stone-200"}`;
 
   return (
     <>
-      <div className="px-12 py-8 flex gap-8">
-        <section className="w-1/3 p-2 flex items-center flex-col border-r-2 border-stone-200 pr-8">
-          <h1 className="self-start text-2xl font-semibold text-sky-700">Profile</h1>
-          <img src="profile.png" alt="profile" className="size-64 my-6" />
+      <div className="md:px-12 px-8 md:py-8 py-4 flex md:flex-row flex-col gap-8">
+        <section className="md:w-1/3 w-full p-2 flex items-center flex-col md:border-r-2 border-stone-200 md:pr-8">
+          <h1 className="md:self-start text-2xl font-semibold text-sky-700">Profile</h1>
+          <img src="profile.png" alt="profile" className="md:size-64 size-32 my-6" />
           <span className="text-sm text-stone-500 italic">id: {id}</span>
           <span className="mt-2 font-semibold">{role?.toUpperCase()}</span>
           <span className={`mt-2 px-2 py-1 text-white rounded-sm ${isActive ? "bg-green-500" : "bg-red-500"}`}>
@@ -177,19 +177,19 @@ const Profile = () => {
           </span>
         </section>
 
-        <section className="w-2/3 p-2 pl-4">
-          <div>
-            <section className="flex gap-4 justify-end">
+        <section className="md:w-2/3 w-full p-2 md:pl-4">
+          <div className="flex md:flex-col flex-col-reverse">
+            <section className="md:flex md:items-center gap-4 md:justify-end grid grid-cols-2 md:mt-0 mt-4">
               {editing ? (
                 <>
-                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={handleCancel}>Cancel</button>
-                  <button className="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 transition-all" onClick={handleSave}>Save</button>
+                  <button className="bg-red-600 text-white px-3 md:py-1.5 py-3 rounded-md hover:bg-red-700 transition-all md:w-auto w-full md:text-base text-sm" onClick={handleCancel}>Cancel</button>
+                  <button className="bg-green-600 text-white px-3 md:py-1.5 py-3 rounded-md hover:bg-green-700 transition-all md:w-auto w-full md:text-base text-sm" onClick={handleSave}>Save</button>
                 </>
               ) : (
                 <>
                   <button className={buttonClasses} onClick={() => setChangingPassword(true)}>Change Password</button>
                   <button className={buttonClasses} onClick={handleEditProfile}>Edit Profile</button>
-                  <button className="bg-red-600 text-white px-3 py-1.5 rounded-md hover:bg-red-700 transition-all" onClick={handleLogout}>Logout</button>
+                  <button className="bg-red-600 text-white px-3 md:py-1.5 py-3 rounded-md hover:bg-red-700 transition-all md:w-auto w-full col-span-2 md:text-base text-sm" onClick={handleLogout}>Logout</button>
                 </>
               )}
             </section>
