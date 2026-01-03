@@ -98,23 +98,23 @@ const Role = () => {
 
   return (
     <>
-      <div className="px-12 py-8 flex gap-8">
-        <section className="w-1/3 p-2 flex items-center flex-col border-r border-stone-200">
-          <h1 className="self-start text-2xl font-semibold text-sky-700">Role Management</h1>
-          <img src="roles.png" alt="roles" className="size-64 my-6" />
+      <div className="md:px-12 px-8 md:py-8 py-4 flex md:flex-row flex-col gap-8">
+        <section className="md:w-1/3 w-full p-2 flex items-center flex-col md:border-r border-stone-200">
+          <h1 className="md:self-start text-2xl font-semibold text-sky-700">Role Management</h1>
+          <img src="roles.png" alt="roles" className="md:size-64 size-32 my-6" />
           <span className="text-sm text-stone-500 italic uppercase tracking-widest text-center">
             Define System Permissions
           </span>
-          <p className="mt-4 text-center text-sm text-stone-600 px-4 leading-relaxed">
+          <p className="md:mt-4 mt-2 text-center ms:text-sm text-xs text-stone-600 px-4 leading-relaxed">
             Manage granular access levels for your application. Roles defined here determine the actions users can perform across the system.
           </p>
         </section>
 
-        <section className="w-2/3 p-2">
+        <section className="md:w-2/3 w-full p-2">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold text-sky-800">Available Roles</h2>
             <button
-              className="bg-sky-600 text-white px-3 py-1.5 rounded-md self-start hover:bg-sky-700 transition-all active:bg-sky-900"
+              className="md:text-base text-sm bg-sky-600 text-white px-3 md:py-1.5 py-2.5 rounded-md self-start hover:bg-sky-700 transition-all active:bg-sky-900"
               onClick={() => setShowModal(true)}
             >
               + Create Role
