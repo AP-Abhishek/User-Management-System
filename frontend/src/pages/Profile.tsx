@@ -299,7 +299,7 @@ const Profile = () => {
               </button>
               <button
                 className="bg-red-600 text-white px-6 py-2 rounded-md font-bold hover:bg-red-700 transition-all active:scale-95 shadow-md"
-                onClick={() => {logout; toast.info("You have been logged out.");}}
+                onClick={() => {logout(); toast.info("You have been logged out.");}}
               >
                 Logout
               </button>
