@@ -1,5 +1,9 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
-import "dotenv/config";
+import dotenv from "dotenv";
+
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
+}
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {

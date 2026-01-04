@@ -1,5 +1,6 @@
 import app from "./app";
 import { connectDB } from "./db/connection";
+import dotenv from "dotenv";
 
 let isConnected = false;
 
@@ -17,7 +18,8 @@ const handler = async (req: any, res: any) => {
 };
 
 if (process.env.NODE_ENV !== "production") {
-    import("dotenv/config");
+    dotenv.config();
+
     const PORT = process.env.PORT;
     (async () => {
         try {
