@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticate } from "../middlewares/authMiddleware.js";
-import { authozieAdmin } from "../middlewares/authorizeAdminMiddleware.js";
+import { authorizeAdmin } from "../middlewares/authorizeAdminMiddleware.js";
 import {
     addRole,
     deleteRole,
@@ -10,9 +10,9 @@ import {
 
 const roleRoutes = express.Router();
 
-roleRoutes.post("/add", authenticate, authozieAdmin, addRole);
-roleRoutes.put("/:id", authenticate, authozieAdmin, editRole);
-roleRoutes.delete("/:id", authenticate, authozieAdmin, deleteRole);
-roleRoutes.get("/", authenticate, authozieAdmin, getRoles);
+roleRoutes.post("/add", authenticate, authorizeAdmin, addRole);
+roleRoutes.put("/:id", authenticate, authorizeAdmin, editRole);
+roleRoutes.delete("/:id", authenticate, authorizeAdmin, deleteRole);
+roleRoutes.get("/", authenticate, authorizeAdmin, getRoles);
 
 export default roleRoutes;

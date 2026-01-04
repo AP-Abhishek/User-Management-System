@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 
-export const authozieAdmin = (
+export const authorizeAdmin = (
     req: Request,
     res: Response,
     next: NextFunction
