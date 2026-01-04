@@ -166,7 +166,7 @@ const Role = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-sky-200 border-t-4 border-sky-600">
             <h2 className="text-xl font-bold text-stone-800">
               {editingRole ? "Update Role" : "Create New Role"}
@@ -206,7 +206,7 @@ const Role = () => {
 
 
       {deletingRole && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-red-200 border-t-4 border-red-600">
             <h2 className="text-xl font-bold text-stone-800">Delete Role?</h2>
             <p className="mt-4 text-stone-600 leading-relaxed">

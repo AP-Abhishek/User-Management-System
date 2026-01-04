@@ -6,7 +6,7 @@ const Header = () => {
   const { user } = useAuth();
   return (
     <>
-      <header className="w-full md:px-12 px-4 md:py-4 py-2 flex items-center justify-between bg-background border-b-4 border-sky-900">
+      <header className="w-full md:h-auto h-16 md:px-12 px-4 md:py-4 py-2 flex items-center justify-between bg-background border-b-4 border-sky-900">
         <section className="flex-center">
           <Link to={"/"}>
             <img
@@ -15,7 +15,7 @@ const Header = () => {
               alt="logo"
             />
           </Link>
-          <h1 className="md:text-3xl text-base font-semibold md:mx-4 mx-1 cursor-default">User Management System</h1>
+          <h1 className="md:text-3xl text-[1.1rem] font-semibold md:mx-4 mx-1 cursor-default">User Management System</h1>
         </section>
         <section className="flex gap-8">
           <Navbar />

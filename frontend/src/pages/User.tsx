@@ -158,7 +158,7 @@ const User = () => {
       </section>
 
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-stone-900/40 backdrop-blur-sm flex items-center justify-center z-50">
           <form onSubmit={handleAddUser} className="bg-white p-8 rounded-2xl w-100 shadow-2xl border border-stone-100">
             <h2 className="text-xl font-bold text-stone-800 mb-6">Create New User</h2>
             <div className="grid grid-cols-2 gap-3 mb-3">
@@ -177,7 +177,7 @@ const User = () => {
       )}
 
       {isEditModalOpen && selectedUser && (
-        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-stone-900/40 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-2xl w-100 shadow-2xl">
             <div className="mb-6">
               <h2 className="text-xl font-bold text-stone-800">User Configuration</h2>
@@ -211,7 +211,7 @@ const User = () => {
       )}
 
       {deletingUser && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-60">
+        <div className="md:p-0 p-6 fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-60">
           <div className="bg-white w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-red-200 border-t-4 border-red-600">
             <h2 className="text-xl font-bold text-stone-800">Delete User?</h2>
             <p className="mt-4 text-stone-600 leading-relaxed">

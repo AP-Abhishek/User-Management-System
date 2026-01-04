@@ -64,15 +64,15 @@ const Dashboard = () => {
             <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
               <div className={`${cardClasses} border-sky-600`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">Total Users</span>
-                <h3 className="text-4xl font-bold text-sky-700 md:mt-2 mx-2">{stats.users}</h3>
+                <h3 className="md:text-4xl text-2xl font-bold text-sky-700 md:mt-2 mx-2">{stats.users}</h3>
               </div>
               <div className={`${cardClasses} border-green-600`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">Active Sessions</span>
-                <h3 className="text-4xl font-bold text-green-600 md:mt-2 mx-2">{stats.active}</h3>
+                <h3 className="md:text-4xl text-2xl font-bold text-green-600 md:mt-2 mx-2">{stats.active}</h3>
               </div>
               <div className={`${cardClasses} border-stone-600 md:col-span-2`}>
                 <span className="text-sm text-stone-500 font-bold uppercase tracking-wider">System Roles</span>
-                <h3 className="text-4xl font-bold text-stone-700 md:mt-2 mx-2">{stats.roles}</h3>
+                <h3 className="md:text-4xl text-2xl font-bold text-stone-700 md:mt-2 mx-2">{stats.roles}</h3>
               </div>
             </div>
 

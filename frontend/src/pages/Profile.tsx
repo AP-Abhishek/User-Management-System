@@ -241,7 +241,7 @@ const Profile = () => {
       </div>
 
       {changingPassword && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-sky-200 border-t-4 border-sky-600">
             <h2 className="text-xl font-bold text-stone-800">Change Password</h2>
 
@@ -282,7 +282,7 @@ const Profile = () => {
       )}
 
       {confirmLogout && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="md:p-0 p-6 fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-background w-96 rounded-xl p-6 shadow-[0_0_10px] shadow-red-200 border-t-4 border-red-600">
             <h2 className="text-xl font-bold text-stone-800">Logout?</h2>
 
@@ -299,7 +299,7 @@ const Profile = () => {
               </button>
               <button
                 className="bg-red-600 text-white px-6 py-2 rounded-md font-bold hover:bg-red-700 transition-all active:scale-95 shadow-md"
-                onClick={logout}
+                onClick={() => {logout; toast.info("You have been logged out.");}}
               >
                 Logout
               </button>
