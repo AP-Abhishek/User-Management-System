@@ -17,6 +17,8 @@ const User = () => {
     role: "user"
   });
 
+  const [roles, setRoles] = useState<any[]>([]);
+
   const fetchUsers = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
@@ -29,8 +31,21 @@ const User = () => {
     }
   };
 
+  const fetchRoles = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/roles`, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+      });
+      const data = await res.json();
+      if (res.ok) setRoles(data);
+    } catch (err) {
+      toast.error("Error finding roles");
+    }
+  }
+
   useEffect(() => {
     fetchUsers();
+    fetchRoles();
   }, []);
 
   const handleAddUser = async (e: React.FormEvent) => {
@@ -187,8 +202,11 @@ const User = () => {
               <div>
                 <label className="text-[10px] font-black text-stone-400 uppercase mb-1 block">Account Role</label>
                 <select className="w-full border-2 p-2.5 rounded-xl font-semibold text-stone-700 outline-sky-600" value={selectedUser.role} onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}>
-                  <option value="user">Standard User</option>
-                  <option value="admin">Administrator</option>
+                  {
+                    roles.map(role => (
+                      <option value={role.name}>{role.name.toUpperCase()}</option>
+                    ))
+                  }
                 </select>
               </div>
               <div>
