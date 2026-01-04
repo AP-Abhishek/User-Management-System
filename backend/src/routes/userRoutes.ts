@@ -8,9 +8,9 @@ import {
     updatePassword,
     updateProfile,
     updateUser,
-} from "../controllers/userController";
-import { authenticate } from "../middlewares/authMiddleware";
-import { authozieAdmin } from "../middlewares/authorizeAdminMiddleware";
+} from "../controllers/userController.js";
+import { authenticate } from "../middlewares/authMiddleware.js";
+import { authozieAdmin } from "../middlewares/authorizeAdminMiddleware.js";
 
 const userRoutes = express.Router();
 

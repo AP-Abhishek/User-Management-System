@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../utils/auth";
+import { verifyToken } from "../utils/auth.js";
 
 export const authenticate = (
     req: Request,

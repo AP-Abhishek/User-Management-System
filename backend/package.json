@@ -2,6 +2,7 @@
   "name": "user-management-system-backend",
   "version": "1.0.0",
   "description": "A strong and robust backend to manage multiple users and their roles.",
+  "main": "src/server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts"
   },

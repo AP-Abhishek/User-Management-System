@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import { getDB } from "../db/connection";
-import type { UserSchema } from "../db/schema";
-import bcrypt from "bcryptjs";
 import { ObjectId, type WithId } from "mongodb";
-import { generateToken } from "../utils/auth";
+import bcrypt from "bcryptjs";
+import { getDB } from "../db/connection.js";
+import type { UserSchema } from "../db/schema.js";
+import { generateToken } from "../utils/auth.js";
 
 const collectionName = "users";
 

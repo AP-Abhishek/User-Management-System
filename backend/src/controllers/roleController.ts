@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getDB } from "../db/connection";
+import { getDB } from "../db/connection.js";
 import { ObjectId } from "mongodb";
 
 const collectionName = "roles";

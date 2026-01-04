@@ -1,12 +1,12 @@
 import express from "express";
-import { authenticate } from "../middlewares/authMiddleware";
-import { authozieAdmin } from "../middlewares/authorizeAdminMiddleware";
+import { authenticate } from "../middlewares/authMiddleware.js";
+import { authozieAdmin } from "../middlewares/authorizeAdminMiddleware.js";
 import {
     addRole,
     deleteRole,
     editRole,
     getRoles,
-} from "../controllers/roleController";
+} from "../controllers/roleController.js";
 
 const roleRoutes = express.Router();
 
