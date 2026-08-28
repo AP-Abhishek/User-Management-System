@@ -82,10 +82,13 @@ const User = () => {
           is_active: selectedUser.is_active
         })
       });
+      const data = await res.json();
       if (res.ok) {
-        toast.success("User updated");
+        toast.success(data.message || "User updated");
         setIsEditModalOpen(false);
         fetchUsers();
+      } else {
+        toast.error(data.error || "Update failed");
       }
     } catch (err) {
       toast.error("Update failed");
@@ -99,11 +102,14 @@ const User = () => {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
       });
+      const data = await res.json();
       if (res.ok) {
-        toast.success("User removed");
+        toast.success(data.message || "User removed");
         setDeletingUser(null);
         setIsEditModalOpen(false);
         fetchUsers();
+      } else {
+        toast.error(data.error || "Delete failed");
       }
     } catch (err) {
       toast.error("Delete failed");
@@ -113,7 +119,7 @@ const User = () => {
   return (
     <div className="md:px-12 px-8 md:py-8 py-4 flex md:flex-row flex-col gap-8">
       <section className="md:w-1/3 w-full p-2 flex items-center flex-col md:border-r border-stone-200">
-        <h1 className="md;self-start text-2xl font-semibold text-sky-700">User Management</h1>
+        <h1 className="md:self-start text-2xl font-semibold text-sky-700">User Management</h1>
         <div className="size-56 mt-6 bg-sky-50 rounded-full flex flex-col items-center justify-center shadow-inner border-4 border-white">
           <span className="text-5xl font-black text-sky-600">{users.length}</span>
           <span className="text-[10px] text-sky-400 font-bold tracking-tighter uppercase">Total Users</span>
@@ -204,7 +210,7 @@ const User = () => {
                 <select className="w-full border-2 p-2.5 rounded-xl font-semibold text-stone-700 outline-sky-600" value={selectedUser.role} onChange={(e) => setSelectedUser({ ...selectedUser, role: e.target.value })}>
                   {
                     roles.map(role => (
-                      <option value={role.name}>{role.name.toUpperCase()}</option>
+                      <option key={role._id || role.name} value={role.name}>{role.name.toUpperCase()}</option>
                     ))
                   }
                 </select>
