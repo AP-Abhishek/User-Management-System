@@ -86,7 +86,7 @@ export const loginUser = async (req: Request, res: Response) => {
             });
         }
 
-        const token = generateToken({ id: user._id, role: user.role });
+        const token = generateToken({ id: user._id, role: user.role, email: user.email });
         res.status(200).json({
             message: "Login successfull.",
             token: token,
@@ -126,6 +126,13 @@ export const updateUser = async (req: Request, res: Response) => {
         const { id } = req.params;
         const { role, is_active } = req.body;
 
+        const targetUser = await db.collection(collectionName).findOne({ _id: new ObjectId(id) });
+        if (targetUser && ["admin@test.com", "user@test.com"].includes(targetUser.email)) {
+            return res.status(403).json({
+                error: "Demo accounts cannot be edited or deleted.",
+            });
+        }
+
         const result = await db
             .collection(collectionName)
             .findOneAndUpdate(
@@ -156,6 +163,14 @@ export const deleteUser = async (req: Request, res: Response) => {
         const db = getDB();
 
         const { id } = req.params;
+
+        const targetUser = await db.collection(collectionName).findOne({ _id: new ObjectId(id) });
+        if (targetUser && ["admin@test.com", "user@test.com"].includes(targetUser.email)) {
+            return res.status(403).json({
+                error: "Demo accounts cannot be edited or deleted.",
+            });
+        }
+
         const result = await db.collection(collectionName).findOneAndDelete({
             _id: new ObjectId(id),
         });
